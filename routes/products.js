@@ -1,24 +1,24 @@
 import { Router } from "express";
 import fs from "fs/promises";
 
-const router = Router(); 
+const router = Router();
 const PRODUCTS = "./data/products.json";
 
 // leer el archivo JSON
 async function readProductsFile() {
     try {
         const data = await fs.readFile(PRODUCTS, 'utf8');
-        return JSON.parse(data); 
+        return JSON.parse(data);
     } catch (error) {
         console.error("Error al leer el archivo de productos:", error);
         // devuelve un array vacío si hay un error
-        return []; 
+        return [];
     }
 }
 
 //ENDPOINT: GET 
 router.get("/", async (req, res) => {
-   
+
     try {
         const products = await readProductsFile();
         res.status(200).json({
@@ -35,8 +35,184 @@ router.get("/", async (req, res) => {
     }
 });
 
+// ENDPOINT: GET /:pid
+router.get("/:pid", async (req, res) => {
+    try {
 
- 
+        const productId = parseInt(req.params.pid);
+
+        // validacion
+        if (isNaN(productId)) {
+            return res.status(400).json({
+                success: false,
+                message: "Error 400: El ID del producto debe ser un número entero válido."
+            });
+        }
+
+        // leer todos los productos
+        const products = await readProductsFile();
+
+        // buscar el producto
+        const product = products.find(p => p.id === productId);
+
+        // resp
+        if (!product) {
+            // no encontrado
+            return res.status(404).json({
+                success: false,
+                message: `Error 404: Producto  ID: ${productId} no encontrado.`
+            });
+        }
+
+        // encontrado
+        res.status(200).json({
+            success: true,
+            data: product
+        });
+
+    } catch (error) {
+        console.error("Error al buscar producto por ID:", error);
+        res.status(500).json({
+            success: false,
+            message: "Error interno del servidor al procesar la solicitud."
+        });
+    }
+});
+
+
+
+// ENDPOINT: PUT /:pid (Modificar producto por ID)
+router.put("/:pid", async (req, res) => {
+    try {
+        const productId = parseInt(req.params.pid);
+        const updateData = req.body;
+
+        if (isNaN(productId)) {
+            return res.status(400).json({
+                success: false,
+                message: "Error 400: El ID del producto debe ser un número entero válido."
+            });
+        }
+
+        // leer productos
+        const products = await readProductsFile();
+
+        //encontrar indice del prod
+        const productIndex = products.findIndex(p => p.id === productId);
+
+        // si el id es 0, no se encontro el prod
+        if (productIndex === -1) {
+            return res.status(404).json({
+                success: false,
+                message: `Error 404: Producto ID: ${productId} no encontrado para actualizar.`
+            });
+        }
+
+        const existingProduct = products[productIndex];
+
+        // valid
+        if (updateData.price !== undefined) {
+            const newPrice = Number(updateData.price);
+            if (isNaN(newPrice) || newPrice <= 0) {
+                return res.status(400).json({
+                    success: false,
+                    message: "Error 400: El campo price debe ser un numero positivo."
+                });
+            }
+            updateData.price = newPrice; // Convertir a número para guardar
+        }
+
+        if (updateData.stock !== undefined) {
+            const newStock = Number(updateData.stock);
+            if (isNaN(newStock) || newStock < 0) {
+                return res.status(400).json({
+                    success: false,
+                    message: "Error 400: El campo stock debe ser un numero entero no negativo"
+                });
+            }
+            updateData.stock = newStock; // Convertir a número para guardar
+        }
+
+        // evitar que se modifique el id del producto
+        if (updateData.id) {
+            delete updateData.id;
+        }
+
+        // sobrescribir los campos existentes con los nuevos manteniendo el ID
+        const updatedProduct = {
+            ...existingProduct,
+            ...updateData
+        };
+
+        // reemplazar el prod
+        products[productIndex] = updatedProduct;
+        await writeProductsFile(products);
+
+        // FIN! exitoso
+        res.status(200).json({
+            success: true,
+            message: `Producto ID: ${productId} actualizado correctamente.`,
+            data: updatedProduct
+        });
+    } catch (error) {
+        console.error("Error al actualizar el producto:", error);
+        res.status(500).json({
+            success: false,
+            message: "Error interno del servidor al procesar la solicitud."
+        });
+    }
+});
+
+
+// ENDPOINT: DELETE /:pid (Eliminar producto por ID)
+router.delete("/:pid", async (req, res) => {
+    try {
+        // obtener id
+        const productId = parseInt(req.params.pid);
+
+        if (isNaN(productId)) {
+            return res.status(400).json({
+                success: false,
+                message: "Error 400: El ID del producto debe ser un numero entero valido."
+            });
+        }
+
+        const products = await readProductsFile();
+
+        const productIndex = products.findIndex(p => p.id === productId);
+
+        // no encontraedo
+        if (productIndex === -1) {
+            return res.status(404).json({
+                success: false,
+                message: `Error 404: Producto ID: ${productId} no encontrado para eliminar.`
+            });
+        }
+
+        // 
+        // usar splice() para eliminar el elemento en productIndex-------------
+        const deletedProduct = products.splice(productIndex, 1);
+
+        // guardar array modificado
+        await writeProductsFile(products);
+
+        res.status(200).json({
+            success: true,
+            message: `Producto ID: ${productId} eliminado correctamente.`,
+            data: deletedProduct[0] // Devuelve el producto eliminado
+        });
+    } catch (error) {
+        console.error("Error al eliminar el producto:", error);
+        res.status(500).json({
+            success: false,
+            message: "Error interno del servidor al procesar la solicitud de eliminacion."
+        });
+    }
+});
+
+
+
+
 // escribir el array completo en el archivo
 async function writeProductsFile(productsArray) {
     const dataString = JSON.stringify(productsArray, null, 2); //null = sin filtros // 2 espacio para diferenciar
@@ -47,9 +223,36 @@ async function writeProductsFile(productsArray) {
 // ENDPOINT: POST
 router.post("/", async (req, res) => {
     try {
+        //--------------------------------NUEVO
+        const productData = req.body;
+
+        if (!productData.title || !productData.description || !productData.code || !productData.price || !productData.stock || !productData.category) {
+            return res.status(400).json({
+                success: false,
+                message: "Error: Faltan campos obligatorios (title, description, code, price, stock, category)"
+            });
+        }
+        //-------------------------------- FIN NUEVO
+        const price = Number(productData.price);
+        const stock = Number(productData.stock);
+
+        if (isNaN(price) || price < 0) {
+            return res.status(400).json({
+                success: false,
+                message: "Error 400: El campo price debe ser un numero postivo"
+            })
+        }
+
+        if (isNaN(stock) || stock < 0) {
+            return res.status(400).json({
+                success: false,
+                message: "Error 400: El campo stock debe ser un numero entero positivo"
+            })
+        }
+
         //lista existente
         const products = await readProductsFile();
-        
+
         // id auto
         let newId;
         if (products.length === 0) {
@@ -62,17 +265,17 @@ router.post("/", async (req, res) => {
         //nuevo objeto 
         const newProduct = {
             id: newId,
-            title: req.body.title || 'Producto 1', 
-            description: req.body.description || '',
-            code: req.body.code || '',
-            price: req.body.price || 0, // valor por defecto si no se especifica
-            status: req.body.status !== undefined ? req.body.status : true, // Booleano por defecto: true
-            stock: req.body.stock || 0,
-            category: req.body.category || 'General',
-            thumbnails: req.body.thumbnails || [] // Array de Strings
+            title: productData.title,
+            description: productData.description,
+            code: productData.code,
+            price: price,
+            status: productData.status !== undefined ? productData.status : true, // Booleano por defecto: true
+            stock: stock,
+            category: productData.category,
+            thumbnails: productData.thumbnails || [] // Array de Strings
         };
 
-     // agregar el producto y guardar
+        // agregar el producto y guardar
         products.push(newProduct);
         await writeProductsFile(products);
 
@@ -81,10 +284,56 @@ router.post("/", async (req, res) => {
             message: "Producto creado.",
             data: newProduct
         });
-console.log(`Producto creado y guardado`);
+        console.log(`Producto creado y guardado`);
     } catch (error) {
         console.error("error al crear el producto:", error);
         res.status(500).json({ success: false, message: "error alcrear el producto." });
+    }
+});
+
+
+// ENDPOINT: GET /:pid
+router.get("/:pid", async (req, res) => {
+    try {
+        // obtener el ID del parámetro y asegurar que es un número entero
+
+        const productId = parseInt(req.params.pid);
+
+        // validacion
+        if (isNaN(productId)) {
+            return res.status(400).json({
+                success: false,
+                message: "Error 400: El ID del producto debe ser un número entero válido."
+            });
+        }
+
+        // leer todos los productos
+        const products = await readProductsFile();
+
+        // buscar el producto
+        const product = products.find(p => p.id === productId);
+
+        // resp
+        if (!product) {
+            // no encontrado
+            return res.status(404).json({
+                success: false,
+                message: `Error 404: Producto  ID: ${productId} no encontrado.`
+            });
+        }
+
+        // encontrado
+        res.status(200).json({
+            success: true,
+            data: product
+        });
+
+    } catch (error) {
+        console.error("Error al buscar producto por ID:", error);
+        res.status(500).json({
+            success: false,
+            message: "Error interno del servidor al procesar la solicitud."
+        });
     }
 });
 

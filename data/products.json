@@ -1,0 +1,63 @@
+[
+  {
+    "id": 1,
+    "title": "Impresora 3D Creality Ender 3 V3 KE",
+    "description": "Impresora FDM rápida y fácil de usar, ideal para principiantes y entusiastas. Incluye nivelación automática y extrusor directo.",
+    "price": 820000,
+    "stock": 15
+  },
+  {
+    "id": 2,
+    "title": "Filamento PLA+ Negro (1KG)",
+    "description": "Material de impresión 3D de ácido poliláctico mejorado, con mayor resistencia y fácil impresión. Bobina de 1 kilogramo.",
+    "price": 22000,
+    "stock": 85
+  },
+  {
+    "id": 3,
+    "title": "Secador de Filamentos Sunlu S2",
+    "description": "Caja deshumidificadora con calentamiento de 360° para mantener los filamentos secos y mejorar la calidad de impresión.",
+    "price": 350000,
+    "stock": 30
+  },
+  {
+    "id": 4,
+    "title": "Impresora 3D Resina Anycubic Photon Mono X",
+    "description": "Impresora 3D de resina (SLA) de alta precisión, perfecta para modelos detallados y miniaturas. Ideal para profesionales.",
+    "price": 950000,
+    "stock": 8
+  },
+  {
+    "id": 5,
+    "title": "Boquillas (Pack de 5)",
+    "description": "Juego de 5 boquillas (0.4mm) de repuesto, compatibles con la mayoría de impresoras FDM.",
+    "price": 10000,
+    "stock": 120
+  },
+  {
+    "id": 6,
+    "title": "Producto de prueba",
+    "description": "prueba prueba prueba",
+    "code": "producto 0007",
+    "price": 1,
+    "status": true,
+    "stock": 50,
+    "category": "Categoria de prueba",
+    "thumbnails": [
+      "/img/prueba.jpg"
+    ]
+  },
+  {
+    "id": 7,
+    "title": "Producto de prueba",
+    "description": "prueba prueba prueba",
+    "code": "producto 0007",
+    "price": 1,
+    "status": true,
+    "stock": 50,
+    "category": "Categoria de prueba",
+    "thumbnails": [
+      "/img/prueba.jpg"
+    ]
+  }
+]

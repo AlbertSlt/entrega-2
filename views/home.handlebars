@@ -1,0 +1,18 @@
+<h1>Catálogo de Productos</h1>
+<hr>
+
+{{!-- helper de handlebars, si el array esta vacio pasa al else --}}
+{{#if hasProducts}}
+<div class="product-list">
+    {{#each products}}
+    <div class="product-card">
+        <h3>{{this.title}}</h3>
+        <p>Precio: ${{this.price}}</p>
+        <p>Stock: {{this.stock}}</p>
+        <p>Código: {{this.code}}</p>
+    </div>
+    {{/each}}
+</div>
+{{else}}
+<p>No hay productos disponibles para mostrar.</p>
+{{/if}}

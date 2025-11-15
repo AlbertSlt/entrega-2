@@ -3,7 +3,7 @@ import fs from "fs/promises";
 const PRODUCTS = "./data/products.json";
 
 //helpers
-async function readProductsFile() {
+export async function readProductsFile() {
     try {
         const data = await fs.readFile(PRODUCTS, 'utf8');
         return JSON.parse(data);
@@ -132,6 +132,11 @@ export const createProduct = async (req, res) => {
         products.push(newProduct);
         await writeProductsFile(products);
 
+        //emitir la lista modificada a todos los clientes (WS)
+        req.io.emit('productsUpdate', products);
+        console.log("Emitido 'productsUpdate' despues de creado el producto");
+
+
         res.status(201).json({
             success: true,
             message: "Producto creado.",
@@ -206,6 +211,11 @@ export const updateProduct = async (req, res) => {
         products[productIndex] = updatedProduct;
         await writeProductsFile(products);
 
+        //emitir lista actualizada
+        req.io.emit('productsUpdate', products);
+        console.log("Emitido 'productsUpdate' despues de actualizado")
+
+
         res.status(200).json({
             success: true,
             message: `Producto ID: ${productId} actualizado correctamente.`,
@@ -246,6 +256,10 @@ export const deleteProduct = async (req, res) => {
 
         // Guardar array modificado
         await writeProductsFile(products);
+
+
+        req.io.emit('productsUpdate', products);
+        console.log("Emitido 'productsUpdate' despues de elminar prod")
 
         res.status(200).json({
             success: true,

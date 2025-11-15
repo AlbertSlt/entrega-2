@@ -25,7 +25,6 @@ async function writeCarts(cartsArray) {
 
 export const createCart = async (req, res) => {
      try {
-        //buscamos carritos existentes con la funcion anterior
         const carts = await getCarts();
 
         //id automatico
@@ -82,7 +81,6 @@ export const getCartById = async (req, res) => {
         // buscar por id
         const cart = carts.find(c => c.id === cartId);
 
-        // error 404 carrito no encontrado
         if (!cart) {
             return res.status(404).json({
                 success: false,
@@ -90,7 +88,6 @@ export const getCartById = async (req, res) => {
             });
         }
 
-        // respuesta exitosa(200 OK)
         res.status(200).json({
             success: true,
             data: cart

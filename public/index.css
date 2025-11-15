@@ -1,0 +1,153 @@
+header {
+    /* 1. Habilita Flexbox para controlar la alineación de sus hijos (h1 y nav) */
+    display: flex;
+    /* 2. Alinea los hijos (h1 y nav) horizontalmente al centro del header */
+    justify-content: center;
+    /* 3. Coloca los hijos en una columna para que h1 esté arriba de nav */
+    flex-direction: column;
+    /* 4. Alinea el texto dentro de los hijos (h1 y nav) al centro */
+    text-align: center;
+    
+    /* Estilos visuales opcionales para destacar el header */
+    padding: 20px 0;
+    border-bottom: 1px solid #eee;
+    background-color: #f8f8f8;
+}
+
+header nav {
+    margin-top: 15px; /* Separa un poco del título */
+
+}
+
+header nav a {
+    /* Propiedades de un botón */
+    display: inline-block; /* Permite aplicar padding y dimensiones */
+    padding: 8px 15px;
+    margin: 0 10px; /* Espacio entre botones */
+    
+    /* Diseño visual */
+    background-color: #5c96b8; /* Color verde amigable */
+    color: white; /* Texto blanco */
+    text-decoration: none; /* Quita el subrayado predeterminado */
+    border-radius: 5px; /* Bordes redondeados */
+    font-weight: bold;
+    
+    /* Transición suave para el hover */
+    transition: background-color 0.3s ease;
+   
+}
+
+header nav a:hover {
+    background-color: #4a7aa9; /* Verde más oscuro al pasar el mouse */
+    transform: translateY(-1px); /* Efecto sutil de elevación */
+}
+
+/* Formularios */
+/* --- ESTILOS DEL FORMULARIO DE CREACIÓN --- */
+#create-product-form {
+    /* Usamos Grid o Flexbox para organizar los inputs */
+    display: grid;
+    /* 2 columnas: la primera para inputs (auto), la segunda para el botón (mínimo contenido) */
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px; /* Espacio entre todos los inputs y el botón */
+    max-width: 800px; /* Limita el ancho del formulario */
+    margin: 20px auto; /* Centra el formulario */
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#create-product-form input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box; /* Asegura que padding no aumente el ancho */
+}
+
+#create-product-form button {
+    /* El botón ocupará toda la fila de la cuadrícula si está solo,
+       o tendrá el mismo ancho que los inputs */
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    /* Hacer que el botón ocupe toda la fila si el grid lo permite */
+    grid-column: span 2; 
+    max-width: 250px; /* Ancho máximo para el botón */
+    margin: 0 auto; /* Centra el botón */
+}
+
+#create-product-form button:hover {
+    background-color: #0056b3;
+}
+
+#create-message {
+    text-align: center;
+    font-weight: bold;
+    grid-column: 1 / -1; /* Ocupa todo el ancho */
+}
+
+/* Lista de prod */
+
+/* --- ESTILOS GENERALES Y DE LISTA --- */
+
+/* Centra los títulos h1 y h2 de la página */
+h1, h2 {
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* Centra la lista de productos dentro de su contenedor */
+.product-list {
+    /* Propiedades que ya tenías: */
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 20px;
+    /* Propiedades añadidas/modificadas para centrar la lista: */
+    justify-content: center; /* Centra las tarjetas horizontalmente */
+    max-width: 1200px; /* Limita el ancho máximo para evitar que se extienda demasiado */
+    margin: 0 auto 40px auto; /* Centra el contenedor de la lista en la página */
+}
+
+.product-card {
+    /* Propiedades que ya tenías: */
+    border: 1px solid #ccc;
+    padding: 15px;
+    width: 300px;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+    margin-bottom: 10px;
+    /* Propiedades añadidas: */
+    border-radius: 6px;
+    background-color: #fafafa;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Mantiene el botón abajo */
+}
+
+.product-card h3 {
+    margin-top: 0;
+    color: #333;
+    font-size: 1.2em;
+}
+
+.product-card button {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px; /* Separa el botón del texto */
+    transition: background-color 0.3s;
+}
+
+.product-card button:hover {
+    background-color: #c82333;
+}

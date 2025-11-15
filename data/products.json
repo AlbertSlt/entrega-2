@@ -22,17 +22,6 @@
     "thumbnails": []
   },
   {
-    "id": 3,
-    "title": "Secador de Filamentos Sunlu S2",
-    "description": "Caja deshumidificadora con calentamiento de 360° para mantener los filamentos secos y mejorar la calidad de impresión.",
-    "price": 350000,
-    "stock": 30,
-    "code": "PROD-003",
-    "status": true,
-    "category": "Accesorios",
-    "thumbnails": []
-  },
-  {
     "id": 4,
     "title": "Impresora 3D Resina Anycubic Photon Mono X",
     "description": "Impresora 3D de resina (SLA) de alta precisión, perfecta para modelos detallados y miniaturas. Ideal para profesionales.",

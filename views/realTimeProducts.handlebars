@@ -38,17 +38,17 @@
     const socket = io();
 
 
-// eliminar producto, usa fetch delete
+    // eliminar producto, usa fetch delete
     // se llama desde el boton eliminar de la tarjeta
     const deleteProduct = async (pid) => {
         try {
             const response = await fetch(`/products/${pid}`, {
                 method: 'DELETE',
             });
-          
+
             if (!response.ok) {
-                 const errorData = await response.json();
-                 alert(`Error al eliminar: ${errorData.message}`);
+                const errorData = await response.json();
+                alert(`Error al eliminar: ${errorData.message}`);
             }
         } catch (error) {
             console.error('Error de red al eliminar:', error);
@@ -56,27 +56,19 @@
         }
     };
 
-
-
-
-
-
-
-
-
-
     // escucha de 'productsUpdate'
- 
+
     socket.on('productsUpdate', (products) => {
-        let htmlContent = ''; 
+        let htmlContent = '';
 
         if (products && products.length > 0) {
             products.forEach(product => {
-           //gnerar html
+                //gnerar html
                 htmlContent += `
                     <div class="product-card">
                         <h3>${product.title} (ID: ${product.id})</h3>
                         <p>Precio: $${product.price}</p>
+                        <p>Descripción: ${product.description}</p>
                         <p>Stock: ${product.stock}</p>
                         <p>Código: ${product.code}</p>
                         <button onclick="deleteProduct(${product.id})">Eliminar</button>
@@ -91,10 +83,10 @@
     });
 
 
-// submit del formulario (USA FETCH POST)
+    // submit del formulario (USA FETCH POST)
     createForm.addEventListener('submit', async (e) => {
         e.preventDefault();
-        
+
         const formData = new FormData(createForm);
         const productData = Object.fromEntries(formData.entries());
 

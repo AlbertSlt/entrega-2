@@ -22,6 +22,17 @@
     "thumbnails": []
   },
   {
+    "id": 3,
+    "title": "Kit Cama Caliente de Vidrio 235x235mm",
+    "description": "Plataforma de impresión de vidrio templado con recubrimiento especial para mejor adherencia y fácil remoción de piezas en impresoras FDM.",
+    "price": 35000,
+    "stock": 40,
+    "code": "PROD-003",
+    "status": true,
+    "category": "Repuestos",
+    "thumbnails": []
+  },
+  {
     "id": 4,
     "title": "Impresora 3D Resina Anycubic Photon Mono X",
     "description": "Impresora 3D de resina (SLA) de alta precisión, perfecta para modelos detallados y miniaturas. Ideal para profesionales.",
@@ -45,39 +56,13 @@
   },
   {
     "id": 6,
-    "title": "Producto de prueba",
-    "description": "prueba prueba prueba",
+    "title": "Resina Estándar UV 1KG (Gris)",
+    "description": "Resina fotosensible de curado UV para impresoras 3D tipo LCD/DLP.",
+    "price": 45000,
+    "stock": 60,
     "code": "PROD-006",
-    "price": 1,
     "status": true,
-    "stock": 50,
-    "category": "Categoria de prueba",
-    "thumbnails": [
-      "/img/prueba.jpg"
-    ]
-  },
-  {
-    "id": 7,
-    "title": "Producto de prueba",
-    "description": "prueba prueba prueba",
-    "code": "PROD-007",
-    "price": 1,
-    "status": true,
-    "category": "Categoria de prueba",
-    "stock": 50,
-    "thumbnails": [
-      "/img/prueba.jpg"
-    ]
-  },
-  {
-    "id": 8,
-    "title": "Monitor Ultra HD",
-    "description": "Monitor 4K de 32 pulgadas",
-    "code": "PROD-008",
-    "price": 450.99,
-    "status": true,
-    "stock": 15,
-    "category": "Electrónica",
+    "category": "Resinas",
     "thumbnails": []
   }
 ]

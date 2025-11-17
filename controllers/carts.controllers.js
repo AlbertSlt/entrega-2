@@ -3,7 +3,6 @@ import fs from "fs/promises";
 
 const CARTS_FILE = "./data/carts.json";
 
-
 async function getCarts() {
     try {
         const data = await fs.readFile(CARTS_FILE, "utf-8");
@@ -20,8 +19,6 @@ async function writeCarts(cartsArray) {
     const dataString = JSON.stringify(cartsArray, null, 2);
     await fs.writeFile(CARTS_FILE, dataString, "utf-8");
 }
-
-
 
 export const createCart = async (req, res) => {
      try {
